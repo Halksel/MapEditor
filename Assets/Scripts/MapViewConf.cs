@@ -12,7 +12,7 @@ using System.Text;
 
 public class MapViewConf : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler,IDragHandler, IPointerClickHandler {
 		
-	public GameObject iconImage, parent;
+	public GameObject iconImage, parent,parent2,parent3;
 	public InputField xtxt,ytxt;
 	public int X = 10, Y = 10,dx,dy;
 	public ToggleGroup tg;
@@ -20,7 +20,7 @@ public class MapViewConf : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
 	private float width { set; get; }
 	private float height{ set; get; }
-	private float realW,realH;
+	private float colW,colH;//補正値
 	private int imagenum;
 	private float z = 0,GetHeight;
 	private bool leftflag = false,rightflag = false;
@@ -43,8 +43,12 @@ public class MapViewConf : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 		sprs = CCf.sprs;
 		width = CCf.width;
 		height = CCf.height;
-		realW = parent.GetComponent<RectTransform>().rect.width / 12 ;
-		realH = parent.GetComponent<RectTransform>().rect.height / 8;
+		colW = (parent2.GetComponent<RectTransform>().rect.width/parent3.GetComponent<RectTransform>().rect.width) * Screen.width;
+		Debug.Log(Screen.width + "/" + width + "=" + Screen.width /width);
+		Debug.Log("SH+"+Screen.height);
+		Debug.Log(colW);
+		Debug.Log(colW/width);
+		colH = parent2.GetComponent<RectTransform>().rect.height / (Screen.height) ;
 		X = int.Parse(xtxt.text);
 		Y = int.Parse(ytxt.text);
 		imagenum = sprs.Length;
@@ -58,11 +62,11 @@ public class MapViewConf : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 				GameObject obj = Instantiate(iconImage,transform.position,transform.rotation) as GameObject;
 				obj.GetComponent<Image>().sprite = null;
 				obj.transform.SetParent(transpar,true);
-				obj.transform.localPosition = new Vector3( (i) * realW, (GetHeight)-(j)*realH ,z);
+				obj.transform.localPosition = new Vector3( (i) * width , (GetHeight)-(j)*height ,z);
 				var scale = obj.transform.localScale;
-				var Vecx = realW/width; 
+				/*var Vecx = realW/width; 
 				var Vecy = realH/height; 
-				obj.transform.localScale.Set( realW,realH,z);
+				obj.transform.localScale.Set( Vecx,Vecy,z);*/
 				obj.name = "(" + i + "," + j+")";
 				objs[i + (j * Y)] =  obj;
 			}
@@ -118,7 +122,7 @@ public class MapViewConf : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 					obj.GetComponent<Image>().sprite = null;
 					obj.transform.SetParent(transpar,true);
 					obj.transform.position = new Vector3(0,0,z);
-					obj.transform.localPosition = new Vector3( (i) * realW, (GetHeight)-(j)*realH ,z);
+					obj.transform.localPosition = new Vector3( (i) * width , (GetHeight)-(j)*height,z);
 					obj.name = "(" + i + "," + j+")";
 					objs[i + (j * Y)] =  obj;
 				}
@@ -135,7 +139,7 @@ public class MapViewConf : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 					obj.GetComponent<Image>().sprite = null;
 					obj.transform.SetParent(transpar,true);
 					obj.transform.position = new Vector3(0,0,z);
-					obj.transform.localPosition = new Vector3( (i) * realW, (GetHeight)-(j)*realH ,z);
+					obj.transform.localPosition = new Vector3( (i) * width , (GetHeight)-(j)*height ,z);
 					obj.name = "(" + (i) + "," + j+")";
 					objs[i + (j * Y)] =  obj;
 				}
@@ -246,7 +250,7 @@ public class MapViewConf : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 							objs[i +(j*Y)].GetComponent<Image>().sprite = null;
 						}
 						objs[i +(j*Y)].transform.SetParent(transpar,true);
-						objs[i +(j*Y)].transform.localPosition = new Vector3( (i) * realW, (GetHeight)-(j)*realH ,z);
+						objs[i +(j*Y)].transform.localPosition = new Vector3((i) * width , (GetHeight)-(j)*height,z);
 						objs[i +(j*Y)].name = "(" + i + "," + j+")";
 					}
 				}

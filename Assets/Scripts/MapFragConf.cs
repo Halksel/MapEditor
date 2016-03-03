@@ -48,10 +48,12 @@ public class MapFragConf : MonoBehaviour, IPointerClickHandler {
 		if(txt){
 			txt.text = attribute.ToString();
 		}
+
 	}
 	public void Visualize(){
 		isOn = !isOn;
 		txt.enabled = isOn;
-		txt.text = attribute.ToString();
+		txt.text = GetComponent<RectTransform>().transform.position.x.ToString();
+		txt.fontSize = 20;
 	}
 }
