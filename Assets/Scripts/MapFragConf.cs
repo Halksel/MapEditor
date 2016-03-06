@@ -29,11 +29,8 @@ public class MapFragConf : MonoBehaviour, IPointerClickHandler {
 	}
 
 	public void OnPointerClick(PointerEventData ped){
-		GameObject obj = GameObject.Find("Dragging Object");
-		if(obj){
-			Destroy(obj);
-		}
-		draggingObject = new GameObject("Dragging Object");
+		GameObject obj = GameObject.Find("SelectMapTip");
+		draggingObject = obj;
 		Image draggingImage = draggingObject.AddComponent<Image>();
 		ImageConf IC = draggingObject.AddComponent<ImageConf>();
 		Image sourceImage = GetComponent<Image>();
@@ -53,7 +50,7 @@ public class MapFragConf : MonoBehaviour, IPointerClickHandler {
 	public void Visualize(){
 		isOn = !isOn;
 		txt.enabled = isOn;
-		txt.text = GetComponent<RectTransform>().transform.position.x.ToString();
+		txt.text = attribute.ToString();
 		txt.fontSize = 20;
 	}
 }
