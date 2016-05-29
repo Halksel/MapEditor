@@ -1,0 +1,14 @@
+/Users/Hira/MapEditer/Temp/bin/Debug/UnityEngine.dll
+/Users/Hira/MapEditer/Temp/bin/Debug/UnityEditor.dll
+/Users/Hira/MapEditer/Temp/bin/Debug/UnityEngine.UI.dll
+/Users/Hira/MapEditer/Temp/bin/Debug/UnityEngine.Networking.dll
+/Users/Hira/MapEditer/Temp/bin/Debug/LitJson.dll
+/Users/Hira/MapEditer/Temp/bin/Debug/Mono.Cecil.dll
+/Users/Hira/MapEditer/Temp/bin/Debug/Unity.SerializationLogic.dll
+/Users/Hira/MapEditer/Temp/bin/Debug/Unity.DataContract.dll
+/Users/Hira/MapEditer/Temp/bin/Debug/ICSharpCode.NRefactory.dll
+/Users/Hira/MapEditer/Temp/bin/Debug/Unity.UNetWeaver.dll
+/Users/Hira/MapEditer/Temp/bin/Debug/Unity.UNetWeaver.dll.mdb
+/Users/Hira/MapEditer/Temp/bin/Debug/Unity.CecilTools.dll
+/Users/Hira/MapEditer/Temp/bin/Debug/Mono.Cecil.Pdb.dll
+/Users/Hira/MapEditer/Temp/bin/Debug/Mono.Cecil.Mdb.dll
