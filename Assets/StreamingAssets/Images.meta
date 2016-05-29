@@ -1,7 +1,19 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: d721d54a4ea174306995cf894fde8939
 folderAsset: yes
 timeCreated: 1457079018
+=======
+<<<<<<< HEAD
+guid: d721d54a4ea174306995cf894fde8939
+folderAsset: yes
+timeCreated: 1457079018
+=======
+guid: 888734936c3ed484d88188015262fb0f
+folderAsset: yes
+timeCreated: 1456715103
+>>>>>>> 07dbdf0... First Commit
+>>>>>>> origin/master
 licenseType: Free
 DefaultImporter:
   userData: 
