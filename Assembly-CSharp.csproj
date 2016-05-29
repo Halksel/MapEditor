@@ -53,7 +53,9 @@
      <Compile Include="Assets\Scripts\ImageConf.cs" />
      <Compile Include="Assets\Scripts\LoadConf.cs" />
      <Compile Include="Assets\Scripts\LoadDropdownCallback.cs" />
+     <Compile Include="Assets\Scripts\MapCreater.cs" />
      <Compile Include="Assets\Scripts\MapFragConf.cs" />
+     <Compile Include="Assets\Scripts\MapGenerater.cs" />
      <Compile Include="Assets\Scripts\MapViewConf.cs" />
      <Compile Include="Assets\Scripts\NewBehaviourScript.cs" />
      <Compile Include="Assets\Scripts\SaveConf.cs" />
@@ -61,7 +63,6 @@
      <Compile Include="Assets\Scripts\ScrollRectPlus.cs" />
      <Compile Include="Assets\Scripts\SizeSetter.cs" />
      <Compile Include="Assets\Scripts\TogglesConf.cs" />
-     <Compile Include="Assets\WorldViewConf.cs" />
      <None Include="Assets\StreamingAssets\Data\Saveinfo.txt" />
      <None Include="Assets\Resources\Data\Saveinfo.txt" />
      <None Include="Assets\Debugger\READ ME.txt" />
@@ -70,6 +71,9 @@
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Drawing">
+ <HintPath>/Users/Hira/MapEditer/Assets/mono DLL/System.Drawing.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
