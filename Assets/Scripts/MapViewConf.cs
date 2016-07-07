@@ -7,6 +7,7 @@ using System;
 using System.IO;
 using System.Text;
 
+
 public class MapViewConf : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler,IDragHandler, IPointerClickHandler {
 		
 	public GameObject iconImage, parent,parent2,parent3;
