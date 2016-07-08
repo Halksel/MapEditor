@@ -3,8 +3,9 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
+    <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
+    <RootNamespace></RootNamespace>
     <ProjectGuid>{8FDB5A40-4C78-576C-FBF9-6CA5ED291819}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -33,50 +34,44 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.XML" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="UnityEngine">
-      <HintPath>..\..\..\Applications\Unity\Unity.app\Contents\Frameworks\Managed\UnityEngine.dll</HintPath>
+      <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor">
-      <HintPath>..\..\..\Applications\Unity\Unity.app\Contents\Frameworks\Managed\UnityEditor.dll</HintPath>
+      <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.dll</HintPath>
     </Reference>
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\ClearConf.cs" />
-    <Compile Include="Assets\Scripts\ConfirmConf.cs" />
-    <Compile Include="Assets\Scripts\ContentConf.cs" />
-    <Compile Include="Assets\Scripts\ImageConf.cs" />
-    <Compile Include="Assets\Scripts\LoadConf.cs" />
-    <Compile Include="Assets\Scripts\LoadDropdownCallback.cs" />
-    <Compile Include="Assets\Scripts\MapCreater.cs" />
-    <Compile Include="Assets\Scripts\MapFragConf.cs" />
-    <Compile Include="Assets\Scripts\MapGenerater.cs" />
-    <Compile Include="Assets\Scripts\MapViewConf.cs" />
-    <Compile Include="Assets\Scripts\SaveConf.cs" />
-    <Compile Include="Assets\Scripts\SaveDropdownCallback.cs" />
-    <Compile Include="Assets\Scripts\ScrollRectPlus.cs" />
-    <Compile Include="Assets\Scripts\SizeSetter.cs" />
-    <Compile Include="Assets\Scripts\TogglesConf.cs" />
-    <None Include="Assets\StreamingAssets\Data\Saveinfo.txt" />
-    <None Include="Assets\Plugins\UniRx\ReadMe.txt" />
-    <None Include="Assets\Resources\Data\Saveinfo.txt" />
-    <Reference Include="UnityEngine.UI">
-      <HintPath>..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\GUISystem\UnityEngine.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\Networking\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Drawing">
-      <HintPath>Assets\mono DLL\System.Drawing.dll</HintPath>
-    </Reference>
+     <Compile Include="Assets\Scripts\ContentConf.cs" />
+     <Compile Include="Assets\Scripts\ImageConf.cs" />
+     <Compile Include="Assets\Scripts\LoadConf.cs" />
+     <Compile Include="Assets\Scripts\LoadDropdownCallback.cs" />
+     <Compile Include="Assets\Scripts\MapCreater.cs" />
+     <Compile Include="Assets\Scripts\MapFragConf.cs" />
+     <Compile Include="Assets\Scripts\MapGenerater.cs" />
+     <Compile Include="Assets\Scripts\MapViewConf.cs" />
+     <Compile Include="Assets\Scripts\SaveConf.cs" />
+     <Compile Include="Assets\Scripts\SaveDropdownCallback.cs" />
+     <Compile Include="Assets\Scripts\SizeSetter.cs" />
+     <None Include="Assets\StreamingAssets\Data\Saveinfo.txt" />
+     <None Include="Assets\Plugins\UniRx\ReadMe.txt" />
+     <None Include="Assets\Resources\Data\Saveinfo.txt" />
+ <Reference Include="UnityEngine.UI">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Networking">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Drawing">
+ <HintPath>/Users/Hira/MapEditor/Assets/mono DLL/System.Drawing.dll</HintPath>
+ </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{3AA211D2-D602-0875-F4D2-1CA8AC885A75}</Project>
-      <Name>Assembly-CSharp-firstpass</Name>
-    </ProjectReference>
+      <Project>{3AA211D2-D602-0875-F4D2-1CA8AC885A75}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -86,4 +81,5 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  
 </Project>

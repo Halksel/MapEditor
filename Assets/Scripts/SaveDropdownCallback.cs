@@ -5,12 +5,14 @@ using System.IO;
 using System.Text;
 using System;
 using System.Runtime.Serialization;
+using UniRx;
+using UniRx.Triggers;
 
 public class SaveDropdownCallback : MonoBehaviour {
 
-	private int defonum = 3;
-	[SerializeField]
-	private int num;
+	private int defaultnum = 3;
+	[SerializeField] private int num;
+	[SerializeField] private Dropdown saveDropDown;
 	private static readonly string InfoPath = Application.dataPath + "/Resources/Data/Saveinfo.txt";
 
 	public GameObject obj;
@@ -26,12 +28,12 @@ public class SaveDropdownCallback : MonoBehaviour {
 			// 改行コード
 			SetDefaultText();
 		}
-		if (num <= defonum){
-			num = defonum;
+		if (num <= defaultnum){
+			num = defaultnum;
 		}
 
 		GetComponentInChildren<Text>().text = "Select&Save ";
-		for(int i = defonum;i <= num+1; ++i){
+		for(int i = defaultnum;i <= num+1; ++i){
 			GetComponent<Dropdown>().options.Add(new Dropdown.OptionData());
 		}
 		var options = GetComponent<Dropdown>().options;
@@ -40,8 +42,20 @@ public class SaveDropdownCallback : MonoBehaviour {
 			options[i].text = "SaveData" + i + ".csv";
 		}
 		options[num+1].text = "Create New...";
+		//Refactor In
+		saveDropDown.ObserveEveryValueChanged(x => x.value)
+			.Subscribe( x => {
+					using(StreamWriter sw = new StreamWriter(fi.OpenWrite(),Encoding.UTF8)){
+						if (x >= num){
+							sw.WriteLine(x);
+						}
+						else{
+							sw.WriteLine(num);
+						}
+					}	
+				});
 	}
-
+	//Refactor Out
 	public void OnValueChanged(int result)
 	{
 		int n = GetComponent<Dropdown>().value;

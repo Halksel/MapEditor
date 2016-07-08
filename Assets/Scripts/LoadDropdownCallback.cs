@@ -5,12 +5,13 @@ using System.IO;
 using System.Text;
 using System;
 using System.Runtime.Serialization;
+using UniRx;
+using UniRx.Triggers;
 
 public class LoadDropdownCallback : MonoBehaviour {
 	
 	private int defonum = 3;
-	[SerializeField]
-	private int num;
+	[SerializeField] private int num;
 	private static readonly string InfoPath = Application.dataPath + "/Resources/Data/Saveinfo.txt";
 
 	public GameObject obj;

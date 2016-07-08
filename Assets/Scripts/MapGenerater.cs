@@ -28,13 +28,7 @@ public class MapGenerater{
             //ImageオブジェクトのGraphicsオブジェクトを作成する
             System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(img);
 
-            /*全体を黒で塗りつぶす
-            g.FillRectangle(Brushes.Black, g.VisibleClipBounds);
-            //黄色い扇形を描画する
-            g.DrawPie(Pens.Yellow, 60, 10, 80, 80, 30, 300);
-            */
-
-            for (i = 0; i < width; ++i) {
+		   for (i = 0; i < width; ++i) {
                 for (int j = 0; j < height; ++j) {
                     if (kinds[i,j] >0) {
                         g.DrawImage(images[kinds[i,j]-1],i*imageW,j*imageH);

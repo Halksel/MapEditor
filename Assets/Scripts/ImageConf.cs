@@ -3,6 +3,8 @@ using System.Collections;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Linq;
+using UniRx;
+using UniRx.Triggers;
 
 public class ImageConf : MonoBehaviour, IPointerClickHandler {
 	private GameObject draggingObject;
@@ -22,7 +24,7 @@ public class ImageConf : MonoBehaviour, IPointerClickHandler {
 		draggingImage.sprite = sourceImage.sprite;
 		draggingImage.color = sourceImage.color;
 		draggingImage.material = sourceImage.material;
-		IC.attribute = tg.ActiveToggles().FirstOrDefault().GetComponent<TogglesConf>().num;
+		IC.attribute = int.Parse(tg.ActiveToggles().FirstOrDefault().name);
 		IC.kind = kind+1;
 	}
 }

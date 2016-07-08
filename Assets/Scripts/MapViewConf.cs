@@ -6,7 +6,8 @@ using System.Linq;
 using System;
 using System.IO;
 using System.Text;
-
+using UniRx;
+using UniRx.Triggers;
 
 public class MapViewConf : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler,IDragHandler, IPointerClickHandler {
 		
@@ -34,6 +35,12 @@ public class MapViewConf : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 	//Save
 	private static string SavePath = Application.streamingAssetsPath  + "/Data/SaveData" ;
 	private string[] filenames;
+
+
+	//Refactor In
+	[SerializeField] private Dropdown loadDropDown;
+	[SerializeField] private Dropdown saveDropdown;
+	[SerializeField] private Button clearButton;
 
 	public void Start()
 	{
@@ -80,6 +87,18 @@ public class MapViewConf : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 				++fi;
 			}
 		}
+			
+		//Refactor In
+		loadDropDown.ObserveEveryValueChanged(x => x.value)
+			.Subscribe( x => {
+				LoadMap();	
+			});
+		saveDropdown.ObserveEveryValueChanged(x => x.value)
+			.Subscribe( x => {
+				SaveMap();	
+			});
+		clearButton.OnPointerClickAsObservable()
+			.Subscribe( _ => Clear());
 	}
 	void Update() {
 		if ( Input.GetKeyDown(KeyCode.S) ) {
@@ -345,9 +364,9 @@ public class MapViewConf : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 						int y = int.Parse(objPos.Substring(n+1).Trim(')'));
 						objs[x,y] = obj;
 						var tmp = hoge.GetComponent<ImageConf>();
-						var tmp2 = tg.ActiveToggles().FirstOrDefault().GetComponent<TogglesConf>();
-						obj.GetComponentInChildren<Text>().text = tmp2.num.ToString();
-						attributes[x,y] = tmp2.num;
+						var tmp2 = tg.ActiveToggles().FirstOrDefault().name;
+						obj.GetComponentInChildren<Text>().text = tmp2;
+						attributes[x,y] = int.Parse(tmp2);
 						kinds[x,y] = tmp.kind;
 					}
 					else if(rightflag){

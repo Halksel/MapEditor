@@ -45,7 +45,7 @@ public class MapFragConf : MonoBehaviour, IPointerClickHandler {
 		draggingImage.color = sourceImage.color;
 		draggingImage.material = sourceImage.material;
 		draggingObject.transform.position = ped.position;
-		IC.attribute = tg.ActiveToggles().FirstOrDefault().GetComponent<TogglesConf>().num;
+		IC.attribute = int.Parse(tg.ActiveToggles().FirstOrDefault().name);
 		IC.kind = kind+1;
 		if(txt){
 			txt.text = attribute.ToString();
