@@ -31,9 +31,6 @@ public class MapCreater {
 		System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(img);
 		//全体を黒で塗りつぶす
 		g.FillRectangle(Brushes.Black, g.VisibleClipBounds);
-		//黄色い扇形を描画する
-		g.DrawPie(Pens.Yellow, 60, 10, 80, 80, 30, 300);
-
 		//リソースを解放する
 		g.Dispose();
 		//作成した画像を表示する

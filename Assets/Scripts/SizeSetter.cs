@@ -8,16 +8,6 @@ public class SizeSetter : MonoBehaviour {
 	[SerializeField]
 	private float width,height;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
 	public void SetSize(float f,float f2){
 		width = f;
 		height = f2;

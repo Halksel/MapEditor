@@ -29,7 +29,7 @@ public class MapViewConf : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 	private GameObject[,] objs;
 	private GameObject[] copys;
 	private Sprite[] sprs;
-	private int[,] attributes,kinds,kindscopy;
+	private int[,] attributes,kinds,kindsCopy;
 	private Transform transpar;
 
 	//Save
@@ -64,7 +64,7 @@ public class MapViewConf : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         objs = new GameObject[X,Y];
         kinds = new int[X,Y];
         attributes = new int[X,Y];
-        kindscopy = new int[X,Y];
+        kindsCopy = new int[X,Y];
 		for(int i = 0; i < X;++i){
 			for(int j =0; j < Y; ++j){
 				GameObject obj = Instantiate(iconImage,transform.position,transform.rotation) as GameObject;
@@ -89,59 +89,97 @@ public class MapViewConf : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 		}
 			
 		//Refactor In
-		loadDropDown.ObserveEveryValueChanged(x => x.value)
-			.Subscribe( x => {
-				LoadMap();	
-			});
-		saveDropdown.ObserveEveryValueChanged(x => x.value)
-			.Subscribe( x => {
-				SaveMap();	
-			});
-		clearButton.OnPointerClickAsObservable()
-			.Subscribe( _ => Clear());
-	}
-	void Update() {
-		if ( Input.GetKeyDown(KeyCode.S) ) {
-			ChangeSave();
-		}
-		if ( Input.GetKeyDown(KeyCode.D) ) {
-			ChangeLoad();
-		}
-		if ( Input.GetKeyDown(KeyCode.F) ) {
-			Clear();
-		}
-		if(Input.GetKeyDown(KeyCode.G)){
-            Generate();	
-		}
-		if( Input.GetMouseButton(0) ){
-			leftflag = true;
-			rightflag = false;
-		}
-		else{
-			leftflag = false;
-		}
-		if( Input.GetMouseButton(1) ){
-			rightflag = true;
-			leftflag = false;
-		} else {
-			rightflag = false;
-		}
-		if(xtxt.text != X.ToString() && xtxt.text != "" ){
-			dx = int.Parse(xtxt.text);
-			Array.Resize(ref copys, dx*Y);
-			kindscopy = new int[dx,Y];
-		}
-		if(ytxt.text != Y.ToString() && ytxt.text != ""){
+		loadDropDown.ObserveEveryValueChanged(x => x.value).Subscribe( _ => LoadMap());
+		saveDropdown.ObserveEveryValueChanged(x => x.value).Subscribe( _ => SaveMap());
+		clearButton.OnPointerClickAsObservable().Subscribe( _ => Clear());
+
+		var updateStream = this.UpdateAsObservable();
+
+		//mouseStream
+		updateStream.Select(_ => Input.GetMouseButton(0)).Subscribe(x => {
+			leftflag = x;
+		});
+		updateStream.Select(_ => Input.GetMouseButton(1)).Subscribe(x => {
+			rightflag = x;
+		});
+		// keyStream
+		updateStream.Where(_ => Input.GetKeyDown(KeyCode.S)).Subscribe(_ => ChangeSave());
+		updateStream.Where(_ => Input.GetKeyDown(KeyCode.D)).Subscribe(_ => ChangeLoad());
+		updateStream.Where(_ => Input.GetKeyDown(KeyCode.F)).Subscribe(_ => Clear());
+		updateStream.Where(_ => Input.GetKeyDown(KeyCode.V)).Subscribe(_ => Visualize());
+		updateStream.Where(_ => Input.GetKeyDown(KeyCode.G)).Subscribe(_ => Generate());
+
+		xtxt.OnValueChangedAsObservable().ThrottleFrame(20).Where(x => x != "").Subscribe(x => {
+			dx = int.Parse(x);
+			Array.Resize(ref copys,dx * Y);
+			kindsCopy = new int[dx,Y];
+			Debug.Log(dx);
+		});
+		ytxt.OnValueChangedAsObservable().ThrottleFrame(20).Where(x => x != "").Subscribe(x => {
 			dy = int.Parse(ytxt.text);
 			Array.Resize(ref copys,X*dy);
-			kindscopy = new int[X,dy];
+			kindsCopy = new int[X,dy];
+			Debug.Log(dy);
+		});
+	}
+	private void SetObject(PointerEventData ped){
+		var pointer = new PointerEventData(EventSystem.current);
+
+		Vector2 mousePos = Input.mousePosition;
+		pointer.position = mousePos;
+
+		var raycastResults = new List<RaycastResult>();
+		EventSystem.current.RaycastAll(pointer, raycastResults);
+
+		if (raycastResults.Count > 0) {
+			for(int i =0; i < raycastResults.Count;++i){
+			GameObject obj = raycastResults[i].gameObject;
+				if(obj.tag == "MapFragment"){
+					if(leftflag){
+						obj.GetComponent<Image>().sprite = hoge.GetComponent<Image>().sprite;
+						var objPos = obj.name;
+						int n = objPos.IndexOf(",");
+						int x = int.Parse(objPos.Substring(1,n-1));
+						int y = int.Parse(objPos.Substring(n+1).Trim(')'));
+						objs[x,y] = obj;
+						var tmp = hoge.GetComponent<ImageConf>();
+						var tmp2 = tg.ActiveToggles().FirstOrDefault().name;
+						obj.GetComponentInChildren<Text>().text = tmp2;
+						attributes[x,y] = int.Parse(tmp2);
+						kinds[x,y] = tmp.kind;
+					}
+					else if(rightflag){
+						obj.GetComponent<Image>().sprite = null;
+						var objPos = obj.name;
+						int n = objPos.IndexOf(",");
+						int x = int.Parse(objPos.Substring(1,n-1));
+						int y = int.Parse(objPos.Substring(n+1).Trim(')'));
+						objs[x,y] = obj;
+						attributes[x,y] = 0;
+						kinds[x,y] = -1;
+					}
+				}
+			}
 		}
 	}
-
 	public void ChangeMapSize(){
-		Debug.Log(dx + "," + X);
-
+		Debug.Log("dx = "+dx + "," + X);
+		//Working 
 		if(dx != X){
+			var tmpkind = kinds;
+			var tmpattr = attributes;
+			var tmpobjs = objs;
+			kinds = new int[X,Y];
+			attributes = new int[X,Y];
+			objs = new GameObject[X,Y];
+			for(int i = 0; i < Math.Min(dy,Y); ++i){
+				for(int j = 0; j < Math.Min(dx,X); ++j){
+					kinds[j,i] = tmpkind[j,i];
+					attributes[j,i] = tmpattr[j,i];
+					objs[j,i] = tmpobjs[j,i];
+				}
+			}
+			/*
 			int gap = 0;
 			/*for(int j = 0; j < Y;++j){
 				if(X-dx>0){
@@ -157,7 +195,7 @@ public class MapViewConf : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 					}
 					gap += dx-X;
 				}
-			}*/
+			}
 			foreach(var obj in objs){
 				    Destroy(obj);
 			}
@@ -223,8 +261,8 @@ public class MapViewConf : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 						//kinds[i+(j*Y)] = kinds[i+(j*Y)];
 					}
 				}
-			}*/
-			copys.Initialize();
+			}
+			copys.Initialize();*/
 			X = dx;
 		}
 		if(dy != Y){
@@ -343,46 +381,7 @@ public class MapViewConf : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 		}*/
 	}
 
-	private void SetObject(PointerEventData ped){
-		var pointer = new PointerEventData(EventSystem.current);
 
-		Vector2 mousePos = Input.mousePosition;
-		pointer.position = mousePos;
-
-		var raycastResults = new List<RaycastResult>();
-		EventSystem.current.RaycastAll(pointer, raycastResults);
-
-		if (raycastResults.Count > 0) {
-			for(int i =0; i < raycastResults.Count;++i){
-			GameObject obj = raycastResults[i].gameObject;
-				if(obj.tag == "MapFragment"){
-					if(leftflag){
-						obj.GetComponent<Image>().sprite = hoge.GetComponent<Image>().sprite;
-						var objPos = obj.name;
-						int n = objPos.IndexOf(",");
-						int x = int.Parse(objPos.Substring(1,n-1));
-						int y = int.Parse(objPos.Substring(n+1).Trim(')'));
-						objs[x,y] = obj;
-						var tmp = hoge.GetComponent<ImageConf>();
-						var tmp2 = tg.ActiveToggles().FirstOrDefault().name;
-						obj.GetComponentInChildren<Text>().text = tmp2;
-						attributes[x,y] = int.Parse(tmp2);
-						kinds[x,y] = tmp.kind;
-					}
-					else if(rightflag){
-						obj.GetComponent<Image>().sprite = null;
-						var objPos = obj.name;
-						int n = objPos.IndexOf(",");
-						int x = int.Parse(objPos.Substring(1,n-1));
-						int y = int.Parse(objPos.Substring(n+1).Trim(')'));
-						objs[x,y] = obj;
-						attributes[x,y] = 0;
-						kinds[x,y] = -1;
-					}
-				}
-			}
-		}
-	}
 	public void SaveMap(){
 		if(save.GetComponent<Dropdown>().value != 0){
 			StreamWriter sw = new StreamWriter(SavePath+ save.GetComponent<Dropdown>().value+".csv",false);

@@ -55,20 +55,6 @@ public class SaveDropdownCallback : MonoBehaviour {
 					}	
 				});
 	}
-	//Refactor Out
-	public void OnValueChanged(int result)
-	{
-		int n = GetComponent<Dropdown>().value;
-		FileInfo fi = new FileInfo(InfoPath);
-		using(StreamWriter sw = new StreamWriter(fi.OpenWrite(),Encoding.UTF8)){
-			if (n >= num){
-				sw.WriteLine(n);
-			}
-			else{
-				sw.WriteLine(num);
-			}
-		}
-	}
 	string SetDefaultText(){
 		return "C#あ\n";
 	}

@@ -5,8 +5,6 @@ using UniRx;
 using UniRx.Triggers;
 
 public class LoadConf : MonoBehaviour {
-	//Refactor Out
-	private MapViewConf MVC;
 
 	//Refactor In
 	public GameObject obj;
@@ -14,9 +12,6 @@ public class LoadConf : MonoBehaviour {
 	[SerializeField] GameObject loadDropDown;
 	[SerializeField] GameObject saveDropDown;
 	void Start(){
-		//Refactor Out
-		MVC = obj.GetComponent<MapViewConf>();
-
 		//Refactor In
 		loadButton.OnPointerClickAsObservable()
 			.Subscribe(_ => loadDropDown
@@ -24,11 +19,6 @@ public class LoadConf : MonoBehaviour {
 				.FirstOrDefault()
 				.Subscribe(x =>{
 					loadDropDown.SetActive(!x);
-					//saveDropDown.SetActive(x);
 				}));
-	}
-	//Refactor Out
-	public void ButtonPush() {
-		MVC.LoadMap();
 	}
 }
