@@ -9,17 +9,19 @@ public class MapFragConf : MonoBehaviour, IPointerClickHandler {
 	public int attribute = 0,kind = 0;
 	public ToggleGroup tg;
 	private Text txt;
+	private string text;
 
 	private bool isOn = false;
 
 	public void Start(){
 		tg = GameObject.Find("RadioSet").GetComponent<ToggleGroup>();
 		txt = GetComponentInChildren<Text>();
-		if(txt ){
+		if(txt){
 			txt.enabled = isOn;
 			txt.transform.localPosition = new Vector3(20,20,0);
 			txt.transform.localScale = new Vector3(1,1,0);
-			txt.text = attribute.ToString();
+			text = attribute.ToString();
+			txt.text = text;
 			txt.GetComponent<RectTransform>().sizeDelta = new Vector2(40,40);
 		}
 	}
@@ -41,14 +43,16 @@ public class MapFragConf : MonoBehaviour, IPointerClickHandler {
 		draggingObject.transform.position = ped.position;
 		IC.attribute = int.Parse(tg.ActiveToggles().FirstOrDefault().name);
 		IC.kind = kind+1;
+		text = attribute.ToString();
 		if(txt){
-			txt.text = attribute.ToString();
+			txt.text = text;
 		}
 	}
 	public void Visualize(){
+		text = attribute.ToString();
 		isOn = !isOn;
 		txt.enabled = isOn;
-		txt.text = attribute.ToString();
+		txt.text = text;
 		txt.fontSize = 20;
 		txt.fontSize = 20;
 	}

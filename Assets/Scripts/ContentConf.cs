@@ -40,7 +40,6 @@ public class ContentConf : MonoBehaviour {
 			++i;
 		}
 		Array.Resize(ref sprs,i);
-
 	}
 
 	// Use this for initialization
@@ -49,9 +48,9 @@ public class ContentConf : MonoBehaviour {
 			objs[i] = (GameObject)Instantiate(image,transform.position,transform.rotation);
 			objs[i].gameObject.name = "Image (" + i+ ")" ;
 			objs[i].transform.SetParent(transform,false);
-			GameObject obj = (GameObject)Instantiate(image,transform.position,transform.rotation);
+			/*GameObject obj = (GameObject)Instantiate(image,transform.position,transform.rotation);
 			obj.gameObject.name = "Image (" + i+ ")" ;
-			obj.transform.SetParent(transform,false);
+			obj.transform.SetParent(transform,false);*/
 			textures[i].LoadImage(LoadBytes(files[i]));
 			width = textures[i].width;
 			height = textures[i].height;
@@ -60,13 +59,5 @@ public class ContentConf : MonoBehaviour {
 			sprs[i] = objs[i].GetComponent<Image>().sprite ;
 			objs[i].GetComponent<ImageConf>().kind = i;
 		}
-	}
-
-	void Update(){
-		
-	}
-
-	public void onClick (){
-		Debug.Log("クリックされた") ;
 	}
 }

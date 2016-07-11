@@ -2,8 +2,11 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/MapViewConf.cs">
     <Files>
-      <File FileName="Assets/Scripts/MapViewConf.cs" Line="167" Column="13" />
-      <File FileName="Assets/Scripts/SizeSetter.cs" Line="16" Column="3" />
+      <File FileName="Assets/Scripts/MapViewConf.cs" Line="185" Column="5" />
+      <File FileName="Assets/Scripts/SizeSetter.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/MapFragConf.cs" Line="35" Column="39" />
+      <File FileName="Assets/Scripts/ContentConf.cs" Line="53" Column="47" />
+      <File FileName="Assets/Scripts/ImageConf.cs" Line="26" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
