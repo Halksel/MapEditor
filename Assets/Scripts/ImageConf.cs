@@ -12,7 +12,7 @@ public class ImageConf : MonoBehaviour, IPointerClickHandler {
 	[SerializeField]private ToggleGroup tg;
 
 	public void Start(){
-		//tg = GameObject.Find("RadioSet").GetComponent<ToggleGroup>();
+		tg = GameObject.Find("RadioSet").GetComponent<ToggleGroup>();
 	}
 
 	public void OnPointerClick(PointerEventData ped){
@@ -23,7 +23,7 @@ public class ImageConf : MonoBehaviour, IPointerClickHandler {
 		draggingImage.sprite = sourceImage.sprite;
 		draggingImage.color = sourceImage.color;
 		draggingImage.material = sourceImage.material;
-		//draggingObject.GetComponent<ImageConf>().attribute = int.Parse(tg.ActiveToggles().FirstOrDefault().name);
+		draggingObject.GetComponent<ImageConf>().attribute = int.Parse(tg.ActiveToggles().FirstOrDefault().name);
 		draggingObject.GetComponent<ImageConf>().kind = kind;
 	}
 }

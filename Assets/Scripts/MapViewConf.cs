@@ -153,6 +153,8 @@ public class MapViewConf : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 						obj.GetComponentInChildren<Text>().text = tmp2;
 						attributes[x,y] = int.Parse(tmp2);
 						kinds[x,y] = tmp.kind;
+						obj.GetComponent<MapFragConf>().attribute = int.Parse(tmp2);
+						obj.GetComponent<MapFragConf>().kind = tmp.kind;
 					}
 					else if(rightflag){
 						var objPos = obj.name;
@@ -168,8 +170,6 @@ public class MapViewConf : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 		}
 	}
 	public void ChangeMapSize(){
-				Debug.Log ("dx = " + dx + "," + X);
-		Debug.Log ("dy = " + dy + "," + Y);
 		var tmpkind = kinds;
 		var tmpattr = attributes;
 		var tmpobjs = objs;
@@ -177,7 +177,8 @@ public class MapViewConf : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 		attributes = new int[dx, dy];
 		for (int i = 0; i < Y; ++i) {
 			for (int j = 0; j < X; ++j) {
-				objs [j, i].SetActive (false);
+				objs[j, i].SetActive (false);
+				objs[j,i].GetComponent<MapFragConf>().isOn = false;
 			}
 		}
 		for (int i = 0; i < dy; ++i) {

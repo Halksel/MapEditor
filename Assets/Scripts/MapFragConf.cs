@@ -1,17 +1,16 @@
 ﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System.Collections;
 using System.Linq;
+using System.Collections.Generic;
 
-public class MapFragConf : MonoBehaviour, IPointerClickHandler {
-	private GameObject draggingObject;
+public class MapFragConf : MonoBehaviour{
 	public int attribute = 0,kind = 0;
+	public bool isOn = false;
 	public ToggleGroup tg;
+
 	private Text txt;
 	private string text;
-
-	private bool isOn = false;
 
 	public void Start(){
 		tg = GameObject.Find("RadioSet").GetComponent<ToggleGroup>();
@@ -26,28 +25,6 @@ public class MapFragConf : MonoBehaviour, IPointerClickHandler {
 		}
 	}
 
-	public void OnPointerClick(PointerEventData ped){
-		GameObject obj = GameObject.Find("Dragging Object");
-		draggingObject = obj;
-		if(obj){
-			Destroy(obj);
-		}
-		Image draggingImage = draggingObject.AddComponent<Image>();
-		ImageConf IC = draggingObject.AddComponent<ImageConf>();
-		Image sourceImage = GetComponent<Image>();
-		draggingImage.transform.position = ped.position;
-		draggingImage.sprite = sourceImage.sprite;
-		draggingImage.rectTransform.sizeDelta = sourceImage.rectTransform.sizeDelta;
-		draggingImage.color = sourceImage.color;
-		draggingImage.material = sourceImage.material;
-		draggingObject.transform.position = ped.position;
-		IC.attribute = int.Parse(tg.ActiveToggles().FirstOrDefault().name);
-		IC.kind = kind+1;
-		text = attribute.ToString();
-		if(txt){
-			txt.text = text;
-		}
-	}
 	public void Visualize(){
 		text = attribute.ToString();
 		isOn = !isOn;
@@ -55,5 +32,18 @@ public class MapFragConf : MonoBehaviour, IPointerClickHandler {
 		txt.text = text;
 		txt.fontSize = 20;
 		txt.fontSize = 20;
+		if (this.GetComponent<Image> ().sprite != null) {
+			Texture2D tmp = this.GetComponent<Image> ().sprite.texture;
+			var col = tmp.GetPixel (tmp.width / 2, tmp.height / 2);
+			float avg = new List<float>{col.r,col.g,col.b}.Max();
+			Debug.Log(avg);
+			if(avg < 0.5f){
+				col = Color.white;
+			}
+			else{
+				col = Color.black;
+			}
+			txt.color = col;
+		}
 	}
 }
