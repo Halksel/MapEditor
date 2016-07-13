@@ -42,60 +42,66 @@ public class MapViewConf : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 	[SerializeField] private Dropdown saveDropdown;
 	[SerializeField] private Button clearButton;
 
-	public void Start()
-	{
-		GetHeight = GetComponent<RectTransform>().sizeDelta.y;
-		CCf = GameObject.Find ("Contents").GetComponent<ContentConf>();
-		MG = new MapGenerater();
-		transpar = GameObject.Find("Content").GetComponent<Transform>();
-		sprs = CCf.sprs;
-		width = CCf.width;
-		height = CCf.height;
-		colW = parent2.GetComponent<RectTransform>().rect.width/Screen.width;
-		colH = parent2.GetComponent<RectTransform>().rect.height/Screen.height ;
-		X = int.Parse(xtxt.text);
-		Y = int.Parse(ytxt.text);
-		dx = X;
-		dy = Y;
-		imagenum = sprs.Length;
-		Array.Resize(ref filenames,imagenum);
-		//ブロック生成
-        objs = new GameObject[MX,MY];
-        kinds = new int[MX,MY];
-        attributes = new int[MX,MY];
-        kindsCopy = new int[MX,MY];
-		for(int i = 0; i < MX;++i){
-			for(int j =0; j < MY; ++j){
-				GameObject obj = Instantiate(iconImage,transform.position,transform.rotation) as GameObject;
-				obj.GetComponent<Image>().sprite = null;
-				obj.transform.SetParent(transpar,true);
-				obj.transform.localPosition = new Vector3( (i) * width*colW , (GetHeight)-(j)*height*colH ,z);
-				obj.name = "(" + i + "," + j+")";
-				objs[i,j] = obj;
-                kinds[i,j] = -1;
-				objs[i,j].SetActive(false);
-			}
-		}
-		for(int i = 0; i < X;++i){
-			for(int j =0; j < Y; ++j){
-				objs[i,j].SetActive(true);
-			}
-		}
-			
-		DirectoryInfo dir = new DirectoryInfo(Application.streamingAssetsPath+"/Images/");
-		FileInfo[] info = dir.GetFiles("*.png",System.IO.SearchOption.TopDirectoryOnly);
-		int fi = 0;
-		foreach(FileInfo f in info)
-		{
-			if(f.Name[f.Name.Length-1] != 'a'){
-				filenames[fi] = f.Name;
-				++fi;
-			}
-		}
-			
-		//Refactor In
-		loadDropDown.ObserveEveryValueChanged(x => x.value).Subscribe( _ => LoadMap());
-		saveDropdown.ObserveEveryValueChanged(x => x.value).Subscribe( _ => SaveMap());
+    public void Start()
+    {
+        GetHeight = GetComponent<RectTransform>().sizeDelta.y;
+        CCf = GameObject.Find("Contents").GetComponent<ContentConf>();
+        MG = new MapGenerater();
+        transpar = GameObject.Find("Content").GetComponent<Transform>();
+        sprs = CCf.sprs;
+        width = CCf.width;
+        height = CCf.height;
+        colW = parent2.GetComponent<RectTransform>().rect.width / Screen.width;
+        colH = parent2.GetComponent<RectTransform>().rect.height / Screen.height;
+        X = int.Parse(xtxt.text);
+        Y = int.Parse(ytxt.text);
+        dx = X;
+        dy = Y;
+        imagenum = sprs.Length;
+        Array.Resize(ref filenames, imagenum);
+        //ブロック生成
+        objs = new GameObject[MX, MY];
+        kinds = new int[MX, MY];
+        attributes = new int[MX, MY];
+        kindsCopy = new int[MX, MY];
+        for (int i = 0; i < MX; ++i) {
+            for (int j = 0; j < MY; ++j) {
+                GameObject obj = Instantiate(iconImage, transform.position, transform.rotation) as GameObject;
+                obj.GetComponent<Image>().sprite = null;
+                obj.transform.SetParent(transpar, true);
+                obj.transform.localPosition = new Vector3((i) * width * colW, (GetHeight) - (j) * height * colH, z);
+                obj.name = "(" + i + "," + j + ")";
+                objs[i, j] = obj;
+                kinds[i, j] = -1;
+                objs[i, j].SetActive(false);
+            }
+        }
+        for (int i = 0; i < X; ++i) {
+            for (int j = 0; j < Y; ++j) {
+                objs[i, j].SetActive(true);
+            }
+        }
+
+        DirectoryInfo dir = new DirectoryInfo(Application.streamingAssetsPath + "/Images/");
+        FileInfo[] info = dir.GetFiles("*.png", System.IO.SearchOption.TopDirectoryOnly);
+        int fi = 0;
+        foreach (FileInfo f in info)
+        {
+            if (f.Name[f.Name.Length - 1] != 'a') {
+                filenames[fi] = f.Name;
+                ++fi;
+            }
+        }
+
+        //Refactor In
+        loadDropDown.ObserveEveryValueChanged(x => x.value).ThrottleFirst(TimeSpan.FromMilliseconds(1.0f)).Subscribe(_ => {
+            LoadMap();
+            ChangeLoad();
+        });
+        saveDropdown.ObserveEveryValueChanged(x => x.value).ThrottleFirst(TimeSpan.FromMilliseconds(1.0f)).Subscribe(_ => {
+            SaveMap();
+            ChangeSave();
+        });
 		clearButton.OnPointerClickAsObservable().Subscribe( _ => Clear());
 
 		var updateStream = this.UpdateAsObservable();
@@ -107,10 +113,10 @@ public class MapViewConf : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 		updateStream.Select(_ => Input.GetMouseButton(1)).Subscribe(x => {
 			rightflag = x;
 		});
-		// keyStream
-		updateStream.Where(_ => Input.GetKeyDown(KeyCode.S)).Subscribe(_ => ChangeSave());
-		updateStream.Where(_ => Input.GetKeyDown(KeyCode.D)).Subscribe(_ => ChangeLoad());
-		updateStream.Where(_ => Input.GetKeyDown(KeyCode.F)).Subscribe(_ => Clear());
+        // keyStream
+        updateStream.Where(_ => Input.GetKeyDown(KeyCode.S)).Subscribe(_ => ChangeSave());
+        updateStream.Where(_ => Input.GetKeyDown(KeyCode.D)).Subscribe(_ => ChangeLoad());
+        updateStream.Where(_ => Input.GetKeyDown(KeyCode.F)).Subscribe(_ => Clear());
 		updateStream.Where(_ => Input.GetKeyDown(KeyCode.V)).Subscribe(_ => Visualize());
 		updateStream.Where(_ => Input.GetKeyDown(KeyCode.G)).Subscribe(_ => Generate());
 
@@ -238,7 +244,7 @@ public class MapViewConf : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 				imagenum = int.Parse(strs[2]);
 				for(int i = 3 + imagenum; i < strs.Length-1; ++i){
                     int j = i-(3+imagenum) ;
-					SplitNumAndSet(ref attributes[j%X,j/Y],ref kinds[j%X,j/Y],strs[i]);
+					SplitNumAndSet(ref attributes[j%X,j/X],ref kinds[j%X,j/X],strs[i]);
 				}
 				for(int i = 0; i < X;++i){
 					for(int j =0; j < Y; ++j){
@@ -246,8 +252,8 @@ public class MapViewConf : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 							GameObject obj = Instantiate(iconImage,transform.position,transform.rotation) as GameObject;
 							objs[i,j] = obj;
 						}
-						if(kinds[i,j] > 0){
-							objs[i,j].GetComponent<Image>().sprite = sprs[kinds[i,j]-1];
+						if(kinds[i,j] >= 0){
+							objs[i,j].GetComponent<Image>().sprite = sprs[kinds[i,j]];
 							objs[i,j].GetComponent<MapFragConf>().attribute = attributes[i,j];
 						}
 						else{

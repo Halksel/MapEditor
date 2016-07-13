@@ -31,7 +31,7 @@ public class MapGenerater{
 		   for (i = 0; i < width; ++i) {
                 for (int j = 0; j < height; ++j) {
                     if (kinds[i,j] >0) {
-                        g.DrawImage(images[kinds[i,j]-1],i*imageW,j*imageH);
+                        g.DrawImage(images[kinds[i,j]],i*imageW,j*imageH);
                     }
                 }
             }
