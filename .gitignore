@@ -1,3 +1,4 @@
-#一致するファイルすべて
+﻿#一致するファイルすべて
 *.txt
 *.meta
+Library/metadata/
