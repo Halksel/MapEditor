@@ -36,7 +36,6 @@ public class MapFragConf : MonoBehaviour{
 			Texture2D tmp = this.GetComponent<Image> ().sprite.texture;
 			var col = tmp.GetPixel (tmp.width / 2, tmp.height / 2);
 			float avg = new List<float>{col.r,col.g,col.b}.Max();
-			Debug.Log(avg);
 			if(avg < 0.5f){
 				col = Color.white;
 			}
