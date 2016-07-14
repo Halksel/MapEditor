@@ -1,5 +1,7 @@
-﻿#一致するファイルすべて
+#一致するファイルすべて
 *.txt
+!ReadMe.txt
 *.meta
 Library/metadata/
 Temp/
+.DS_Store
