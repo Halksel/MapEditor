@@ -23,14 +23,14 @@ public class MapGenerater{
 		}
         if (images.Length > 0) {
             int imageW = images[0].Width;
-            int imageH = images[1].Height;
-            Bitmap img = new Bitmap(width * 40, height * 40);
+            int imageH = images[0].Height;
+            Bitmap img = new Bitmap(width * 32, height * 32);
             //ImageオブジェクトのGraphicsオブジェクトを作成する
             System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(img);
 
 		   for (i = 0; i < width; ++i) {
                 for (int j = 0; j < height; ++j) {
-                    if (kinds[i,j] >0) {
+                    if (kinds[i,j] >=0) {
                         g.DrawImage(images[kinds[i,j]],i*imageW,j*imageH);
                     }
                 }
@@ -39,7 +39,7 @@ public class MapGenerater{
             //リソースを解放する
             g.Dispose();
             //作成した画像を表示する
-            Debug.Log(Application.streamingAssetsPath + "/Map");
+            Debug.Log(Application.streamingAssetsPath + "/Map/Map" + num + ".png");
             img.Save(Application.streamingAssetsPath + "/Map/Map" + num + ".png", System.Drawing.Imaging.ImageFormat.Png);
             img.Dispose();
             for (i = 0; i < images.Length; ++i) {
